@@ -7,6 +7,7 @@ A network analyzer made using *python 3.11* ,*pcap*,etc.It captures the network 
 for analyzing dos attack, 'map.py' can be used to plot the location of ip (publicly available) on map and see the route of the packet.  
 
 To be made more efficient in the next update.
+
 -------------------------------------------------------------------------------
 # How to use:  
 
@@ -14,13 +15,15 @@ To be made more efficient in the next update.
 
 to list all the networking interfaces:  
 
-```./main.py --interfaces all```  
+```./main.py --interfaces all
+```  
 
 ![interface](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/bf7bc891-8b85-48c3-bcee-5180c5c5c8b6)  
 
 to capture the network packets:  
 
-```./main.py --capture any```  
+```./main.py --capture any
+```  
 
 ![capture](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/b31cbb02-3913-4fbb-a6cd-fb7ca07179ea)  
 
@@ -29,18 +32,23 @@ to capture the network packets:
 
 to make it better  
 to implement ML for DOS detection
+
 -----------------------------------------------------------------------------------
 # Installation:  
 
 ## Linux:  
 
-```git clone https://github.com/Debang5hu/Network-Analyzer.git```  
+```git clone https://github.com/Debang5hu/Network-Analyzer.git
+```  
 
-```cd Network-Analyzer```  
+```cd Network-Analyzer 
+```  
 
-```chmod +x setup.sh```  
+```chmod +x setup.sh 
+```  
 
-```./setup.sh```  
+```./setup.sh 
+```  
 
 -----------------------------------------------------------------------------------
 # Demo:  
