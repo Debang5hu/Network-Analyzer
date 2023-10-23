@@ -45,7 +45,7 @@ to implement ML for DOS detection
 -----------------------------------------------------------------------------------
 # Demo:  
 
-![demo](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/9170048b-0ba4-4e87-9a54-dcd7d7973216)
+https://github.com/Debang5hu/Network-Analyzer/assets/114200360/9170048b-0ba4-4e87-9a54-dcd7d7973216
 
 
 
