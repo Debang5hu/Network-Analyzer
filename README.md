@@ -35,7 +35,11 @@ to see the route of network packet
 python3 map.py  
 ```
 
-![iplocation](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/c7e8e5a9-9d4c-4f0f-b2cc-805c662ab46c)
+![iplocation](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/c7e8e5a9-9d4c-4f0f-b2cc-805c662ab46c)  
+
+to analyze the captured packet  
+
+![example](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/6b7af233-aca6-4bc6-82f2-1c1075243e75)
 
 -----------------------------------------------------------------------------------  
 # Next update:  
