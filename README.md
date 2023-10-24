@@ -39,6 +39,10 @@ python3 map.py
 
 to analyze the captured packet  
 
+```
+python3 basicdoschecker.py
+```
+
 ![example](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/6b7af233-aca6-4bc6-82f2-1c1075243e75)
 
 -----------------------------------------------------------------------------------  
