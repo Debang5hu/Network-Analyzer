@@ -29,6 +29,14 @@ to capture the network packets:
 
 ![capture](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/b31cbb02-3913-4fbb-a6cd-fb7ca07179ea)  
 
+to see the route of network packet  
+
+```
+python3 map.py  
+```
+
+![iplocation](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/c7e8e5a9-9d4c-4f0f-b2cc-805c662ab46c)
+
 -----------------------------------------------------------------------------------  
 # Next update:  
 
