@@ -5,8 +5,7 @@ A network analyzer made to detect DOS
 
 A network analyzer made using *python 3.11* and *scapy*.It captures the network packet and detect for DOS by counting the number of packets send to  
 target also logs the information of a captured packet to a pcap file,which can be used later,  
-'map.py' can be used to plot the location of ip (publicly available) on map and see the route of the packet.  
-'map.py' to be updated later  
+'map.py' can be used to plot the location of your public ip to destination ip (publicly available) on map and see the route of the packet.    
 
 -------------------------------------------------------------------------------
 # How to use:  
@@ -29,9 +28,7 @@ to see the route of network packet
 python3 map.py  
 ```
 
-![iplocation](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/c7e8e5a9-9d4c-4f0f-b2cc-805c662ab46c)  
-
-
+![Screenshot_2023-10-30_10_31_27](https://github.com/Debang5hu/Network-Analyzer/assets/114200360/6891c24f-0a55-45ae-a3bd-5d5eb5d3125a)  
 
 -----------------------------------------------------------------------------------  
 # Next update:  
