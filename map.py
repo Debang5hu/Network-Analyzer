@@ -1,92 +1,103 @@
 #!/usr/bin/env python
 
 
-# draws a line between two ip location
+# draws a line between the location of your ip and destination ip 
+
+#kudos to https://medium.com/vinsloev-academy/python-cybersecurity-network-tracking-using-wireshark-and-google-maps-2adf3e497a93
+
+# <---- KML ---->
+#KML is a file format used to display geographic data in an Earth browser such as Google Earth
+#link: https://en.wikipedia.org/wiki/Keyhole_Markup_Language
 
 
+#import folium
+import dpkt
+import pygeoip  #for mapping the location
+import socket
 from webbrowser import open_new_tab
-from ipaddress import ip_address
-import folium
-import geocoder
-import re  
+from time import sleep
 
-ip_pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'   #regex for finding the ip addr
 
-ip_pairs = [
-        {"source_ip": "8.8.8.8", "destination_ip": "8.8.8.8"},
-]
+gi = pygeoip.GeoIP('GeoLiteCity.dat')  #db to be downloaded later!
 
-def ip_info(ipaddr):
-    location = geocoder.ip(ipaddr)
+
+#placing the values to kml
+def retKML(dstip, srcip):
+    dst = gi.record_by_name(dstip)
+    src = gi.record_by_name('103.55.96.184')  #my public ip : 103.55.96.184
     try:
-        if ip_address(ipaddr):
-            if location:
-                latitude, longitude = location.latlng
-                return latitude,longitude
+        dstlongitude = dst['longitude']
+        dstlatitude = dst['latitude']
+        srclongitude = src['longitude']
+        srclatitude = src['latitude']
+        kml = (
+            '<Placemark>\n'
+            '<name>%s</name>\n'
+            '<extrude>1</extrude>\n'
+            '<tessellate>1</tessellate>\n'
+            '<styleUrl>#transBluePoly</styleUrl>\n'
+            '<LineString>\n'
+            '<coordinates>%6f,%6f\n%6f,%6f</coordinates>\n'
+            '</LineString>\n'
+            '</Placemark>\n'
+        )%(dstip, dstlongitude, dstlatitude, srclongitude, srclatitude)
+        return kml
     except:
-        return False,False
-
-
-def markonmap():
+        return ''
     
-    #mark the first src_ip and dst_ip
-    location1 = ip_info(ip_pairs[0]["source_ip"])
-    location2 = ip_info(ip_pairs[0]["destination_ip"])
 
-    # Create a map centered between source and destination of the first pair
-    map_center = [(location1[0] + location2[0]) / 2, (location1[1] + location2[1]) / 2]
-    m = folium.Map(location=map_center, zoom_start=2)
-    
-    if location1 and location2:
+#for plotting the ip
+def plotIPs(pcap):
+    kmlPts = ''
+    for (ts, buf) in pcap:
         try:
-            # Draw lines and markers for each IP pair
-            for pair in range (len(ip_pairs)):
-    
-                location1 = ip_info(ip_pairs[pair]['source_ip'])
-                location2 = ip_info(ip_pairs[pair]['destination_ip'])
-
-                folium.PolyLine([location1, location2], color="blue").add_to(m)
-                folium.Marker(location1, tooltip="Source IP").add_to(m)
-                folium.Marker(location2, tooltip="Destination IP").add_to(m)
-
-            # Save the map to an HTML file
-            m.save("map.html")
-    
+            eth = dpkt.ethernet.Ethernet(buf)
+            ip = eth.data
+            # 'inet_ntoa': Converts an IP address to human readable dotted format
+            src = socket.inet_ntoa(ip.src)
+            dst = socket.inet_ntoa(ip.dst)
+            KML = retKML(dst, src)
+            kmlPts = kmlPts + KML
         except:
-            print('[+] Cannot Fetch Location!')
+            pass
+    return kmlPts
+
+#initialising the kml 
+def main():
+    f = open('packet.pcap', 'rb')
+    pcap = dpkt.pcap.Reader(f)
+    
+    #header
+    kmlheader = '<?xml version="1.0" encoding="UTF-8"?> \n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
+    '<Style id="transBluePoly">' \
+                '<LineStyle>' \
+                '<width>1.5</width>' \
+                '<color>501400E6</color>' \
+                '</LineStyle>' \
+                '</Style>'
+    
+    #footer
+    kmlfooter = '</Document>\n</kml>\n'
+
+    #body
+    kmldoc=kmlheader + plotIPs(pcap) + kmlfooter
+    
+    #writting the output to a .kml file
+    with open('layout.kml','w') as fh:
+        fh.write(kmldoc)
+    
+    print('[+] File Saved!')
+    print('[+] Create a map and import the "layout.kml" file in the opened website to see the route!')
+    
+    sleep(3)
+    
+    #opening it in new tab of default browser
+    open_new_tab('https://www.google.com/mymaps')
+
+    #closing the file
+    f.close()
+
+#calling the main func
+main()
 
 
-
-#if __name__ == '__main__':
-with open("ip.txt", "r") as file:
-    lines = file.read().splitlines()
-
-for x in lines:
-    # Find all IP addresses in the text
-    ip_addresses = re.findall(ip_pattern, x)
-
-    if len(ip_addresses) >= 2:
-        ip1 = ip_addresses[0]
-        ip2 = ip_addresses[1]
-
-        #content of the dictionary
-        dict_ip = {'source_ip': '','destination_ip':''}
-        #setting the ip
-        dict_ip['source_ip'] = ip1
-        dict_ip['destination_ip'] = ip2
-
-        #appending
-        ip_pairs.append(dict_ip)
-
-    else:
-        pass
-
-#marking the location on map
-markonmap()
-
-
-#opening the file on browser
-try:
-    open_new_tab('./map.html')
-except:
-    print('[+] File Not Found!')
