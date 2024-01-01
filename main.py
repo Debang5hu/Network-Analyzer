@@ -12,7 +12,7 @@ try:
     from scapy.all import *
     from scapy.all import  IP,ICMP,TCP,UDP,ARP
     from scapy.utils import wrpcap  #for writting the captured packets into a pcap file
-    import os
+    import os,sys
     import threading
     from ipblock import IPBLOCK    #custom module for blocking IP address
     from time import time
